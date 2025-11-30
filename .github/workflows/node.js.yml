@@ -38,7 +38,7 @@ jobs:
         cache: 'npm'
         
     - name: Instalar Dependências 📦
-      run: npm ci
+      run: npm install
       
     - name: Construir a Aplicação (Build) 🏗️
       # É crucial que este comando gere os arquivos estáticos na pasta 'build' ou 'dist'
