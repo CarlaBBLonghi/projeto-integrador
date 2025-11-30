@@ -1,31 +1,69 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+# Este fluxo de trabalho fará uma instalação limpa de dependências do node,
+# cache/restaurá-las, construir o código-fonte e implantá-lo no GitHub Pages.
 
-name: Node.js CI
+name: Deploy React App to GitHub Pages 🚀
 
 on:
+  # O deploy deve ser executado no push para o branch principal
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  # Adicionado para permitir o deploy manual a partir da aba Actions
+  workflow_dispatch:
+
+# Define as permissões necessárias para o deploy
+permissions:
+  contents: read
+  pages: write # Permissão necessária para publicar no GitHub Pages
+  id-token: write # Necessário para autenticar no OIDC
 
 jobs:
+  # O trabalho de build continua quase o mesmo
   build:
 
     runs-on: ubuntu-latest
 
+    # REMOVIDO: A matriz de versão do Node não é estritamente necessária para o deploy
+    # Usaremos uma versão estável
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [20.x] 
 
     steps:
     - uses: actions/checkout@v4
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+        
+    - name: Instalar Dependências 📦
+      run: npm ci
+      
+    - name: Construir a Aplicação (Build) 🏗️
+      # É crucial que este comando gere os arquivos estáticos na pasta 'build' ou 'dist'
+      run: npm run build
+      
+    - name: Configurar Páginas GitHub (Setup Pages)
+      uses: actions/configure-pages@v4
+      
+    - name: Upload de Artefato de Build ⬆️
+      # Esta etapa 'empacota' os arquivos gerados pela build para o deploy
+      uses: actions/upload-pages-artifact@v3
+      with:
+        # Altere para o diretório de saída correto se não for 'build' (ex: 'dist')
+        path: './build' 
+        
+  # Novo trabalho para o deploy
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    # O deploy só deve ser executado após o build ter sido concluído com sucesso
+    needs: build 
+    
+    steps:
+      - name: Deploy para GitHub Pages 📤
+        id: deployment
+        uses: actions/deploy-pages@v4
