@@ -561,7 +561,7 @@ function App() {
       {/* --- RODAPÉ GLOBAL FIXO NA PÁGINA --- */}
       <div className="footer-bar">
         <div className="footer-content">
-          <span className="footer-item instagram-icon"><i className="fab fa-instagram"></i>@SeMexeai</span>
+          <span className="footer-item instagram-icon"><i className="fab fa-instagram"></i>@SeMexeAI</span>
           <span className="footer-item adress-icon"><i className="fab fa-MapMarkerAlt"></i>R. Jaguaré Mirim, 71 - Vila Leopoldina</span>
           <span className="footer-item phone-icon"><i className="fab fa-Phone"></i>(11) 3738-1260</span>
           <span className="footer-item">Senai Vila Leopoldina - Mariano Ferraz</span>
