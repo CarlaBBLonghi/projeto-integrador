@@ -458,10 +458,10 @@ function App() {
             SemexeAI
           </div>
           <nav className="header-nav">
-            <a href="#" className="header-link active">App (Início)</a>
-            <a href="#" className="header-link">Sobre Nós</a>
-            <a href="#" className="header-link">Contatos</a>
-            <a href="#" className="header-link">Sugestão de Melhoria</a>
+            <a href="#!" className="header-link_active">App (Início)</a>
+            <a href="#!" className="header-link">Sobre Nós</a>
+            <a href="#!" className="header-link">Contatos</a>
+            <a href="#!" className="header-link">Sugestão de Melhoria</a>
           </nav>
         </div>
       </div>
