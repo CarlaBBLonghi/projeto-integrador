@@ -169,7 +169,7 @@ const questions = [
 ];
 
 // ** SIMULAÇÃO DE IMPORTAÇÃO DE LOGO: **
-const SemexeLogo = '/logo.png';
+// const SemexeLogo = '/logo.png';
 
 
 // --- Componente de Estilização (Com ajustes para evitar sobreposição no Header) ---
@@ -454,7 +454,8 @@ function App() {
       <div className="app-header">
         <div className="header-content">
           <div className="header-logo">
-            <img src={SemexeLogo} alt="" style={{ height: '100px' }} />
+            {/* <img src={SemexeLogo} alt="" style={{ height: '100px' }} /> */}
+            <img src={process.env.PUBLIC_URL + '/logo.png'} alt="-" style={{height: '100px'}} />
             SemexeAI
           </div>
           <nav className="header-nav">
