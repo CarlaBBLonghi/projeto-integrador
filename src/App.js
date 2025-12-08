@@ -114,7 +114,61 @@ const PRIORS = Object.keys(LIKELIHOODS).reduce((acc, scenario) => {
   return acc;
 }, {});
 
-// --- Estrutura de Perguntas ---
+// // --- Estrutura de Perguntas COMPLETA ---
+// const questions = [
+//   {
+//     id: 'q1',
+//     text: "Qual é o seu limite de capital total para investir neste negócio nos primeiros 12 meses?",
+//     options: [
+//       { text: "Baixo (ex: até R$10k)💰", value: 'custo_baixo' },
+//       { text: "Médio (ex: R$11k - R$199k)💰💰", value: 'custo_medio' },
+//       { text: "Alto (ex: acima de R$200k)💰💰💰", value: 'custo_alto' }
+//     ]
+//   },
+//   {
+//     id: 'q2',
+//     text: "Você depende do lucro deste negócio para pagar suas contas pessoais no curto prazo (6-12 meses)?",
+//     options: [
+//       { text: "Sim, preciso de renda rápida (6-12 meses)", value: 'prazo_rapido' },
+//       { text: "Não, posso esperar 2 anos ou mais", value: 'prazo_longo' }
+//     ]
+//   },
+//   {
+//     id: 'q3',
+//     text: "Sua motivação principal é executar um plano comprovado ou criar algo radicalmente novo?",
+//     options: [
+//       { text: "Executar um plano comprovado", value: 'ideia_comprovada' },
+//       { text: "Criar um produto/serviço novo", value: 'ideia_nova' }
+//     ]
+//   },
+//   {
+//     id: 'q4',
+//     text: "Quão confortável você está com a incerteza financeira? (0 = Segurança total, 10 = Risco total)",
+//     options: [
+//       { text: "0-4: Prefiro segurança, mesmo com retorno menor", value: 'risco_baixo' },
+//       { text: "5-7: Aceito risco moderado por retorno moderado", value: 'risco_moderado' },
+//       { text: "8-10: Arrisco tudo pela chance de um retorno muito maior", value: 'risco_alto' }
+//     ]
+//   },
+//   {
+//     id: 'q5',
+//     text: "Qual é sua maior força profissional?",
+//     options: [
+//       { text: "Gestão (Organizar processos, finanças, equipes)", value: 'habilidade_gestao' },
+//       { text: "Técnica (Programar, criar conteúdo, marketing digital)", value: 'habilidade_tecnica' }
+//     ]
+//   },
+//   {
+//     id: 'q6',
+//     text: "Você possui local próprio ou depende 100% de aluguel?",
+//     options: [
+//       { text: "Sim, possuo local próprio (reduzindo custo fixo)", value: 'sim_proprio' },
+//       { text: "Não, dependeria 100% de aluguel/contrato", value: 'nao_aluguel' }
+//     ]
+//   }
+// ];
+
+// --- Estrutura de Perguntas SIMPLES---
 const questions = [
   {
     id: 'q1',
@@ -125,47 +179,39 @@ const questions = [
       { text: "Alto (ex: acima de R$200k)💰💰💰", value: 'custo_alto' }
     ]
   },
-  {
+    {
     id: 'q2',
-    text: "Você depende do lucro deste negócio para pagar suas contas pessoais no curto prazo (6-12 meses)?",
+    text: "Local escolhido",
     options: [
-      { text: "Sim, preciso de renda rápida (6-12 meses)", value: 'prazo_rapido' },
-      { text: "Não, posso esperar 2 anos ou mais", value: 'prazo_longo' }
+      { text: "1 - Sem local físico", value: 'risco_baixo' },
+      { text: "2 - Alugado", value: 'risco_moderado' },
+      { text: "3 - Próprio", value: 'risco_alto' }
     ]
   },
   {
     id: 'q3',
-    text: "Sua motivação principal é executar um plano comprovado ou criar algo radicalmente novo?",
+    text: "Estrutura de negócio",
     options: [
-      { text: "Executar um plano comprovado", value: 'ideia_comprovada' },
-      { text: "Criar um produto/serviço novo", value: 'ideia_nova' }
+      { text: "Investido único", value: 'prazo_rapido' },
+      { text: "Sociedade de Investidores", value: 'prazo_longo' }
     ]
   },
   {
     id: 'q4',
-    text: "Quão confortável você está com a incerteza financeira? (0 = Segurança total, 10 = Risco total)",
+    text: "Tem experiência como empreendedor?",
     options: [
-      { text: "0-4: Prefiro segurança, mesmo com retorno menor", value: 'risco_baixo' },
-      { text: "5-7: Aceito risco moderado por retorno moderado", value: 'risco_moderado' },
-      { text: "8-10: Arrisco tudo pela chance de um retorno muito maior", value: 'risco_alto' }
+      { text: "Sim", value: 'ideia_comprovada' },
+      { text: "Não", value: 'ideia_nova' }
     ]
   },
   {
     id: 'q5',
-    text: "Qual é sua maior força profissional?",
+    text: "Tem plano de negócio?",
     options: [
-      { text: "Gestão (Organizar processos, finanças, equipes)", value: 'habilidade_gestao' },
-      { text: "Técnica (Programar, criar conteúdo, marketing digital)", value: 'habilidade_tecnica' }
+      { text: "Sim", value: 'habilidade_gestao' },
+      { text: "Não", value: 'habilidade_tecnica' }
     ]
   },
-  {
-    id: 'q6',
-    text: "Voce possui local próprio ou depende 100% de aluguel?",
-    options: [
-      { text: "Sim, possuo local próprio (reduzindo custo fixo)", value: 'sim_proprio' },
-      { text: "Não, dependeria 100% de aluguel/contrato", value: 'nao_aluguel' }
-    ]
-  }
 ];
 
 // ** SIMULAÇÃO DE IMPORTAÇÃO DE LOGO: **
