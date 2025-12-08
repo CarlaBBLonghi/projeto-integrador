@@ -192,7 +192,7 @@ const questions = [
     id: 'q3',
     text: "Estrutura de negócio",
     options: [
-      { text: "Investido único", value: 'prazo_rapido' },
+      { text: "Investidor único", value: 'prazo_rapido' },
       { text: "Sociedade de Investidores", value: 'prazo_longo' }
     ]
   },
