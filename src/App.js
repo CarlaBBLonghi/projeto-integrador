@@ -299,11 +299,14 @@ function AboutPage() {
     <div className="content-page-container">
       <h1 className="page-title">Sobre Nós</h1>
       <p className="page-content">
-        Somos uma equipe de quatro estudantes do segundo período de Análise e
-        Desenvolvimento de Sistemas do SENAI - Mariano Ferraz. O <b>SeMexeAI</b>{" "}
-        nasceu como nosso Projeto Integrador com o objetivo de aplicar
-        conhecimentos técnicos em uma solução prática para novos empreendedores.
+        <b>
+          Somos uma equipe de quatro estudantes do segundo período de Análise e
+          Desenvolvimento de Sistemas do SENAI - Mariano Ferraz.
+        </b>
         <br />
+        <b>O SeMexeAI</b> nasceu como nosso Projeto Integrador com o objetivo de
+        aplicar conhecimentos técnicos em uma solução prática para novos
+        empreendedores.
         <br />
         Nosso diferencial é a utilização do{" "}
         <b>Teorema de Bayes (classificador Naive Bayes)</b>, uma poderosa
