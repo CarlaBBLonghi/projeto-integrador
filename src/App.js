@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import SemexeLogo from './Logo com Fundo Branco.png';
+import senai from './Senai.png';
 
-
-// --- BASE DE CONHECIMENTO (Lógica Bayesiana) ---
+// --- Base de Conhecimento (Lógica Bayesiana) ---
+// (Mantido inalterado)
 const LIKELIHOODS = {
   // Cenários Franquia e Quiosque
   'Franquia de rua': {
@@ -114,285 +116,427 @@ const PRIORS = Object.keys(LIKELIHOODS).reduce((acc, scenario) => {
   return acc;
 }, {});
 
-// // --- Estrutura de Perguntas COMPLETA ---
-// const questions = [
-//   {
-//     id: 'q1',
-//     text: "Qual é o seu limite de capital total para investir neste negócio nos primeiros 12 meses?",
-//     options: [
-//       { text: "Baixo (ex: até R$10k)💰", value: 'custo_baixo' },
-//       { text: "Médio (ex: R$11k - R$199k)💰💰", value: 'custo_medio' },
-//       { text: "Alto (ex: acima de R$200k)💰💰💰", value: 'custo_alto' }
-//     ]
-//   },
-//   {
-//     id: 'q2',
-//     text: "Você depende do lucro deste negócio para pagar suas contas pessoais no curto prazo (6-12 meses)?",
-//     options: [
-//       { text: "Sim, preciso de renda rápida (6-12 meses)", value: 'prazo_rapido' },
-//       { text: "Não, posso esperar 2 anos ou mais", value: 'prazo_longo' }
-//     ]
-//   },
-//   {
-//     id: 'q3',
-//     text: "Sua motivação principal é executar um plano comprovado ou criar algo radicalmente novo?",
-//     options: [
-//       { text: "Executar um plano comprovado", value: 'ideia_comprovada' },
-//       { text: "Criar um produto/serviço novo", value: 'ideia_nova' }
-//     ]
-//   },
-//   {
-//     id: 'q4',
-//     text: "Quão confortável você está com a incerteza financeira? (0 = Segurança total, 10 = Risco total)",
-//     options: [
-//       { text: "0-4: Prefiro segurança, mesmo com retorno menor", value: 'risco_baixo' },
-//       { text: "5-7: Aceito risco moderado por retorno moderado", value: 'risco_moderado' },
-//       { text: "8-10: Arrisco tudo pela chance de um retorno muito maior", value: 'risco_alto' }
-//     ]
-//   },
-//   {
-//     id: 'q5',
-//     text: "Qual é sua maior força profissional?",
-//     options: [
-//       { text: "Gestão (Organizar processos, finanças, equipes)", value: 'habilidade_gestao' },
-//       { text: "Técnica (Programar, criar conteúdo, marketing digital)", value: 'habilidade_tecnica' }
-//     ]
-//   },
-//   {
-//     id: 'q6',
-//     text: "Você possui local próprio ou depende 100% de aluguel?",
-//     options: [
-//       { text: "Sim, possuo local próprio (reduzindo custo fixo)", value: 'sim_proprio' },
-//       { text: "Não, dependeria 100% de aluguel/contrato", value: 'nao_aluguel' }
-//     ]
-//   }
-// ];
-
-// --- Estrutura de Perguntas SIMPLES---
+// --- Estrutura de Perguntas ---
+// (Mantido inalterado)
 const questions = [
   {
     id: 'q1',
     text: "Qual é o seu limite de capital total para investir neste negócio nos primeiros 12 meses?",
     options: [
-      { text: "Baixo (ex: até R$10k)💰", value: 'custo_baixo' },
-      { text: "Médio (ex: R$11k - R$199k)💰💰", value: 'custo_medio' },
-      { text: "Alto (ex: acima de R$200k)💰💰💰", value: 'custo_alto' }
+      { text: "Baixo (ex: até R$10.000)💰", value: 'custo_baixo' },
+      { text: "Médio (ex: R$11.000 - R$199.000)💰💰", value: 'custo_medio' },
+      { text: "Alto (ex: acima de R$200.000)💰💰💰", value: 'custo_alto' }
     ]
   },
-    {
+  {
     id: 'q2',
-    text: "Local escolhido",
+    text: "Você depende do lucro deste negócio para pagar suas contas pessoais no curto prazo (6-12 meses)?",
     options: [
-      { text: "1 - Sem local físico", value: 'risco_baixo' },
-      { text: "2 - Alugado", value: 'risco_moderado' },
-      { text: "3 - Próprio", value: 'risco_alto' }
+      { text: "Sim, preciso de renda rápida (6-12 meses)", value: 'prazo_rapido' },
+      { text: "Não, posso esperar 2 anos ou mais", value: 'prazo_longo' }
     ]
   },
   {
     id: 'q3',
-    text: "Estrutura de negócio",
+    text: "Sua motivação principal é executar um plano comprovado ou criar algo radicalmente novo?",
     options: [
-      { text: "Investidor único", value: 'prazo_rapido' },
-      { text: "Sociedade de Investidores", value: 'prazo_longo' }
+      { text: "Executar um plano comprovado", value: 'ideia_comprovada' },
+      { text: "Criar um produto/serviço novo", value: 'ideia_nova' }
     ]
   },
   {
     id: 'q4',
-    text: "Tem experiência como empreendedor?",
+    text: "Quão confortável você está com a incerteza financeira? (0 = Segurança total, 10 = Risco total)",
     options: [
-      { text: "Sim", value: 'ideia_comprovada' },
-      { text: "Não", value: 'ideia_nova' }
+      { text: "0-4: Prefiro segurança, mesmo com retorno menor", value: 'risco_baixo' },
+      { text: "5-7: Aceito risco moderado por retorno moderado", value: 'risco_moderado' },
+      { text: "8-10: Arrisco tudo pela chance de um retorno muito maior", value: 'risco_alto' }
     ]
   },
   {
     id: 'q5',
-    text: "Tem plano de negócio?",
+    text: "Qual é sua maior força profissional?",
     options: [
-      { text: "Sim", value: 'habilidade_gestao' },
-      { text: "Não", value: 'habilidade_tecnica' }
+      { text: "Gestão (Organizar processos, finanças, equipes)", value: 'habilidade_gestao' },
+      { text: "Técnica (Programar, criar conteúdo, marketing digital)", value: 'habilidade_tecnica' }
     ]
   },
+  {
+    id: 'q6',
+    text: "Voce possui local próprio ou depende 100% de aluguel?",
+    options: [
+      { text: "Sim, possuo local próprio (reduzindo custo fixo)", value: 'sim_proprio' },
+      { text: "Não, dependeria 100% de aluguel/contrato", value: 'nao_aluguel' }
+    ]
+  }
 ];
 
-// ** SIMULAÇÃO DE IMPORTAÇÃO DE LOGO: **
-// const SemexeLogo = '/logo.png';
+// --- Componentes de Página ---
+
+// Componente para a Página "Sobre Nós"
+function AboutPage() {
+  return (
+    <div className="content-page-container">
+      <h1 className="page-title">Sobre Nós</h1>
+      <p className="page-content">Somos uma equipe de quatro estudantes do segundo período de Análise e Desenvolvimento de Sistemas do SENAI - Mariano Ferraz.
+  O <b>SemexeAI</b> nasceu como nosso Projeto Integrador com o objetivo de aplicar conhecimentos técnicos
+  em uma solução prática para novos empreendedores.
+  <br/><br/>
+  Nosso diferencial é a utilização do <b>Teorema de Bayes (classificador Naive Bayes)</b>, uma poderosa ferramenta estatística,
+  para analisar as respostas do usuário e calcular as probabilidades do seu perfil de investimento (score bayesiano).
+  Isso nos permite sugerir o tipo de empreendimento com maior chance de sucesso para o seu capital, prazo e apetite ao risco.
+  <br/><br/>
+  Agradecemos o interesse em nosso projeto e esperamos que o SemexeAI
+  seja o primeiro passo de sucesso na sua jornada empreendedora!</p>
+    <p>Anderson - Carla - Eduardo - Juliana</p>
+    </div>
+  );
+}
+
+// Componente para a Página "Contato"
+function ContactPage() {
+  return (
+    <div className="content-page-container">
+      <h1 className="page-title">Contatos rede Senai</h1>
+      <p className="page-content">Email: sac@senaicni.com.br</p>
+      <p>ou ligue para (61) 3317-9989 ou (61) 3317-9992 para atendimento geral</p>
+    </div>
+  );
+}
+
+// Componente do Quiz (Lógica original, encapsulada para maior clareza)
+function QuizContent({
+  currentQuestionIndex,
+  answers,
+  showResults,
+  questions,
+  results,
+  handleAnswer,
+  handleReset
+}) {
+  const displayIndex = showResults ? questions.length - 1 : currentQuestionIndex;
+  const currentQuestion = questions[displayIndex];
+
+  return (
+    <div className="quiz-card">
+      {!showResults ? (
+        // --- Tela do Quiz ---
+        <>
+          <div className="quiz-header">
+            <h1 className="quiz-title">
+              Calculadora do empreendedorismo
+            </h1>
+            <h1 className="quiz-description">
+              Saiba aqui seu perfil empreendedor 😎
+            </h1>
+            <div className="progress-container">
+              <div
+                className="progress-bar"
+                style={{ width: `${((Object.keys(answers).length) / questions.length) * 100}%` }}
+              ></div>
+            </div>
+            <p className="progress-text">
+              Pergunta {Object.keys(answers).length + 1} de {questions.length}
+            </p>
+          </div>
+
+          <div className="question-area">
+            <h2 className="question-text">
+              {currentQuestion.text}
+            </h2>
+            <div className="options-container">
+              {currentQuestion.options.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => handleAnswer(currentQuestion.id, option.value)}
+                  className={`option-button ${answers[currentQuestion.id] === option.value ? 'option-button-selected' : ''}`}
+                >
+                  {option.text}
+                </button>
+              ))}
+            </div>
+          </div>
+        </>
+      ) : (
+        // --- Tela de Resultados ---
+        <div className="results-container">
+          <h1 className="quiz-title">
+            Resultado da Análise
+          </h1>
+
+          <div className="best-result-card">
+            <span className="best-result-label">Seu perfil mais provável é:</span>
+            <h2 className="best-result-model">
+              {results[0].model.toUpperCase()}
+            </h2>
+            <p className="best-result-prob">
+              {(results[0].probability * 100).toFixed(1)}%
+            </p>
+          </div>
+
+          <div className="all-results-container">
+            <h3 className="all-results-title">Probabilidade de cada modelo:</h3>
+            {results.map((result, index) => (
+              <div key={result.model} className="result-item">
+                <div className="result-item-header">
+                  <span className={`result-item-model ${index === 0 ? 'result-item-model-best' : ''}`}>
+                    {index + 1}. {result.model}
+                  </span>
+                  <span className={`result-item-prob ${index === 0 ? 'result-item-prob-best' : ''}`}>
+                    {(result.probability * 100).toFixed(1)}%
+                  </span>
+                </div>
+                <div className="result-progress-bar-container">
+                  <div
+                    className={`result-progress-bar ${index === 0 ? 'result-progress-bar-best' : ''}`}
+                    style={{ width: `${result.probability * 100}%` }}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button
+            onClick={handleReset}
+            className="reset-button"
+          >
+            Fazer novamente
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 
-// --- Componente de Estilização (Com ajustes para evitar sobreposição no Header) ---
+// --- Componente de Estilização (Com ajustes no Header, App Container e novos estilos para as páginas) ---
 function AppStyles() {
   return (
     <style>{`
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
-      /* Adiciona Font Awesome para ícones (necessário para o ícone do Instagram) */
-      @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
       body {
         margin: 0;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       }
 
-      /* --- AJUSTE: CSS para o Header Superior Fixo --- */
+      /* --- CSS para o Header Superior Fixo (Light Mode) --- */
       .app-header {
         width: 100%;
         position: fixed;
         top: 0;
         left: 0;
-        background-color: #1f2937;
+        background-color: #ffffff;
         border-bottom: 2px solid #3b82f6;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         z-index: 20;
-        padding: 0.75rem 1.5rem;
+        padding: 0.75rem 0rem;
       }
 
       .header-content {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        max-width: 42rem;
+        max-width: 40rem; /* Aumentado para melhor alinhamento com o card */
         margin: 0 auto;
       }
 
-      .header-logo {
-        font-size: 1.5rem;
-        font-weight: 800;
-        color: #ffffff;
-        white-space: nowrap;
-        cursor: pointer;
+      .header-logo-container {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #1f2937;
+        white-space: nowrap;
+        cursor: pointer;
       }
 
-      .header-logo img {
-          height: 1.8rem;
-          max-width: none;
-          border-bottom: 10px solid #3b82f6;
-          border-radius: 5px
+      .header-logo-img {
+          height: 6rem;
+          width: 6rem;
+          margin-right: 0.5rem;
+          border-radius: 0px;
+          object-fit: contain;
 
       }
 
       .header-nav {
         display: flex;
-        /* REDUÇÃO DE ESPAÇAMENTO: de 1.5rem para 1rem */
         gap: 1rem;
       }
 
       .header-link {
-        color: #d1d5db;
+        color: #6b7280;
         text-decoration: none;
         font-weight: 600;
-        /* REDUÇÃO DA FONTE: de 0.95rem para 0.85rem */
-        font-size: 0.85rem;
+        font-size: 0.95rem;
         transition: color 0.3s;
-        white-space: nowrap; /* Garante que não quebre a linha */
+        cursor: pointer; /* Adicionado cursor pointer */
       }
 
       .header-link:hover, .header-link.active {
-        color: #3b82f6;
+        color:rgb(246, 159, 59);
       }
       /* ----------------------------------------------------- */
 
       .app-container {
         display: flex;
-        align-items: center;
+        align-items: center; /* Alterado para alinhar no topo em páginas de conteúdo */
         justify-content: center;
         min-height: 100vh;
-        background-color: #111827;
-        color: #f3f4f6;
-        padding-top: 5rem;
+        background-color:rgb(56, 126, 196);
+        color: #1f2937;
+
+        padding-top: 8rem; /* Aumentado para acomodar o header fixo */
         padding-bottom: 3rem;
+
         box-sizing: border-box;
         padding-left: 1rem;
         padding-right: 1rem;
       }
 
+      /* Estilo para as novas páginas de conteúdo */
+      .content-page-container {
+        width: 100%;
+        max-width: 42rem;
+        background-color:rgb(255, 255, 255);
+        border-radius: 1rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        box-sizing: border-box;
+        border: 1px solid #e5e7eb;
+        text-align: center;
+        min-height: 200px; /* Para dar um volume */
+      }
+
+      .page-title {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: #3b82f6;
+        margin-bottom: 1.5rem;
+      }
+
+      .page-content {
+        font-size: 1.125rem;
+        color: #4b5563;
+        line-height: 1.6;
+      }
+      /* Fim dos novos estilos */
+
       .quiz-card {
         width: 100%;
         max-width: 42rem;
-        background-color: #1f2937;
+        background-color:rgb(255, 255, 255);
         border-radius: 1rem;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        padding: 2rem;
-        transition: all 0.5s;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);\
+        padding: 2rem;\
+        transition: all 0.5s;\
         box-sizing: border-box;
         position: relative;
+        border: 1px solid #e5e7eb;
       }
 
-      /* TÍTULO COM GRADIENTE CLEAN */
-      .quiz-title {
-        font-size: 2rem;
-        font-weight: 800;
-        text-align: center;
-        margin-bottom: 0rem;
-        background-image: linear-gradient(to right, #60a5fa, #3b82f6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
+      /* Estilos do Quiz e Resultados - Light Mode */
 
-      .quiz-description { font-size: 1.4rem; font-weight: 350; text-align: center; color:rgb(255, 255, 255); margin-bottom: 4rem; margin-top: 0rem; }
-      .progress-container { width: 100%; background-color: #374151; border-radius: 9999px; height: 0.625rem; }
+      .quiz-header { margin-bottom: 2rem; }
+      .quiz-title { font-size: 1.875rem; font-weight: 700; text-align: center; color: #1f2937; margin-bottom: 0rem; }
+      .quiz-description { font-size: 1.4rem; font-weight: 350; text-align: center; color: #4b5563; margin-bottom: 4rem; margin-top: 0rem; }
+      .progress-container { width: 100%; background-color: #e5e7eb; border-radius: 9999px; height: 0.625rem; }
       .progress-bar { background-color: #3b82f6; height: 0.625rem; border-radius: 9999px; transition: width 0.5s ease-in-out; }
       .progress-text { text-align: center; font-size: 0.875rem; color: #9ca3af; margin-top: 0.5rem; }
       .question-area { text-align: center; }
-      .question-text { font-size: 1.5rem; font-weight: 600; margin-bottom: 2rem; min-height: 60px; color: #e5e7eb; }
+      .question-text { font-size: 1.5rem; font-weight: 600; margin-bottom: 2rem; min-height: 60px; color: #1f2937; }
       .options-container { display: flex; flex-direction: column; gap: 1rem; }
 
-      /* EFEITO DE HOVER/SELEÇÃO SUAVE */
+      /* Botões de Opção */
       .option-button {
         width: 100%;
-        background-color: #374151;
+        background-color:rgb(223, 223, 223);
         font-size: 1.125rem;
-        color: #e5e7eb;
+        color: #1f2937;
         padding: 1rem;
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        border: none;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        border: 1px solid #d1d5db;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s;
         font-family: 'Inter', sans-serif;
         font-weight: 600;
       }
       .option-button:hover {
         background-color: #2563eb;
         color: #ffffff;
-        transform: translateY(-2px) scale(1.01);
-        box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+        transform: scale(1.02);
+        border-color: #2563eb;
       }
-      .option-button.selected {
-        background-color: #3b82f6 !important;
-        color: #ffffff !important;
-        border: 2px solid #60a5fa;
+      /* Estilo para a opção selecionada */
+      .option-button-selected {
+          background-color: #3b82f6 !important;
+          color: #ffffff !important;
+          border-color: #3b82f6 !important;
       }
 
       .results-container { text-align: center; animation: fade-in 0.5s ease-out; }
-      .best-result-card { background-color: #3b82f6; color: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); margin-bottom: 2rem; transition: all 0.3s; }
-      .best-result-card:hover { transform: scale(1.03); }
-      .best-result-label { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.1em; }
-      .best-result-model { font-size: 2.25rem; font-weight: 800; margin-top: 0.5rem; }
-      .best-result-prob { font-size: 1.875rem; font-weight: 700; opacity: 0.9; }
-      .all-results-container { display: flex; flex-direction: column; gap: 1rem; text-align: left; }
-      .all-results-title { font-size: 1.25rem; font-weight: 600; color: #d1d5db; margin-bottom: 1rem; }
-      .result-item { background-color: #374151; padding: 1rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1mp rgba(0, 0, 0, 0.06); }
-      .result-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-      .result-item-model { font-weight: 600; color: #e5e7eb; }
-      .result-item-model-best { color: #60a5fa; }
-      .result-item-prob { font-weight: 700; color: #e5e7eb; }
-      .result-item-prob-best { color: #60a5fa; }
-      .result-progress-bar-container { width: 100%; background-color: #4b5563; border-radius: 9999px; height: 0.625rem; }
-      .result-progress-bar { background-color: #6b7280; height: 0.625rem; border-radius: 9999px; }
-      .result-progress-bar-best { background-color: #3b82f6; }
-      .reset-button { margin-top: 2.5rem; background-color: #4b5563; font-size: 1.125rem; color: #e5e7eb; padding: 0.75rem 2rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); border: none; cursor: pointer; transition: all 0.3s; font-weight: 600; }
-      .reset-button:hover { background-color: #6b7280; color: white; transform: scale(1.02); }
 
-      /* CSS PARA RODAPÉ FIXO NA PÁGINA */
+      /* Cartão de Melhor Resultado */
+      .best-result-card {
+        background-color: #3b82f6;
+        color: white;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+        transition: all 0.3s;
+      }
+
+      .all-results-title { font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-bottom: 1rem; }
+
+      /* Item de Resultado Individual */
+      .result-item {
+        background-color: #f9fafb;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        border: 1px solid #e5e7eb;
+      }
+      .result-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+      .result-item-model { font-weight: 600; color:rgb(55, 43, 31); }
+      .result-item-model-best { color: #3b82f6; }
+      .result-item-prob { font-weight: 700; color: #4b5563; }
+      .result-item-prob-best { color: #3b82f6; }
+      .result-progress-bar-container { width: 100%; background-color: #e5e7eb; border-radius: 9999px; height: 0.625rem; }
+      .result-progress-bar { background-color: #9ca3af; height: 0.625rem; border-radius: 9999px; transition: width 0.3s; }
+      .result-progress-bar-best { background-color: #3b82f6; }
+
+      /* Botão de Reset */
+      .reset-button {
+        margin-top: 2.5rem;
+        background-color:rgb(236, 36, 36);
+        font-size: 1.125rem;
+        color: #ffffff;
+        padding: 0.75rem 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-weight: 600;
+      }
+      .reset-button:hover {
+        background-color: #4b5563;
+        color: white;
+        transform: scale(1.02);
+      }
+
+      /* --- CSS PARA RODAPÉ FIXO NA PÁGINA (Light Mode) --- */
       .footer-bar {
         width: 100%;
         position: fixed;
         bottom: 0;
         left: 0;
-        background-color: #1f2937;
-        color: #9ca3af;
-        border-top: 1px solid #374151;
+        background-color: #ffffff;
+        color: #6b7280;
+        border-top: 1px solid #e5e7eb;
         padding: 0.75rem 1rem;
         font-size: 0.75rem;
         box-sizing: border-box;
@@ -401,28 +545,32 @@ function AppStyles() {
       .footer-content {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: flex-start;
+        align-items: center;
         max-width: 42rem;
         margin: 0 auto;
-        gap: 0.5rem 1rem;
+        gap: 0.5rem 2rem;
       }
       .footer-item {
         display: flex;
         align-items: center;
+        flex-shrink: 0;
         white-space: nowrap;
       }
-      .instagram-icon i {
-        margin-right: 0.3rem;
-        color: #c13584;
+
+      .footer-logo-img {
+          height: 2rem;
+          width: 6rem;
+          margin-right: 4rem;
+          border-radius: 0px;
+          object-fit: contain;
+          flex-shrink: 0;
       }
-      .adress-icon i {
-        margin-right: 0.3rem;
-        color: #c13584;
+
+      .instagram-icon::before {
+          content: "📸 ";
       }
-      .phone-icon i {
-        margin-right: 0.3rem;
-        color: #c13584;
-      }
+      /* ------------------------------------ */
       @keyframes fade-in {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
@@ -431,13 +579,20 @@ function AppStyles() {
   );
 }
 
-// --- Componente Principal ---
+// --- Componente Principal Atualizado ---
 function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
+  const [currentPage, setCurrentPage] = useState('home'); // Novo estado para controle da página
 
+  // Funções de Navegação
+  const goToHome = () => setCurrentPage('home');
+  const goToAbout = () => setCurrentPage('about');
+  const goToContact = () => setCurrentPage('contact');
+
+  // Lógica de Cálculo (Mantida inalterada)
   const calculateResults = (finalAnswers) => {
     const evidence = Object.values(finalAnswers);
     let posteriors = {};
@@ -446,7 +601,6 @@ function App() {
     for (const [model, prior] of Object.entries(PRIORS)) {
       let likelihood = prior;
       for (const e of evidence) {
-        // Multiplica a probabilidade, usando 0.001 para evidências sem peso em um modelo
         likelihood *= LIKELIHOODS[model][e] || 0.001;
       }
       posteriors[model] = likelihood;
@@ -471,14 +625,9 @@ function App() {
     const answeredCount = Object.values(newAnswers).filter(v => v !== null).length;
 
     if (answeredCount < questions.length) {
-      // Pequeno timeout para mostrar a seleção antes de ir para a próxima pergunta
-      setTimeout(() => {
-        setCurrentQuestionIndex(answeredCount);
-      }, 300);
+      setCurrentQuestionIndex(answeredCount);
     } else {
-      setTimeout(() => {
-        calculateResults(newAnswers);
-      }, 300);
+      calculateResults(newAnswers);
     }
   };
 
@@ -487,130 +636,92 @@ function App() {
     setAnswers({});
     setResults([]);
     setShowResults(false);
+    goToHome(); // Volta para a home ao resetar, caso estivesse em resultados
   };
 
-  const displayIndex = showResults ? questions.length - 1 : currentQuestionIndex;
-  const currentQuestion = questions[displayIndex];
+  // Renderiza a página principal (Home) ou o conteúdo do About/Contact
+  const renderPageContent = () => {
+    switch (currentPage) {
+      case 'about':
+        return <AboutPage />;
+      case 'contact':
+        return <ContactPage />;
+      case 'home':
+      default:
+        // Passa todas as props necessárias para o componente Quiz
+        return (
+          <QuizContent
+            currentQuestionIndex={currentQuestionIndex}
+            answers={answers}
+            showResults={showResults}
+            questions={questions}
+            results={results}
+            handleAnswer={handleAnswer}
+            handleReset={handleReset}
+          />
+        );
+    }
+  };
 
   return (
     <>
       <AppStyles />
 
-      {/* --- HEADER SUPERIOR FIXO --- */}
+      {/* --- HEADER SUPERIOR FIXO (Links atualizados) --- */}
       <div className="app-header">
         <div className="header-content">
-          <div className="header-logo">
-            {/* <img src={SemexeLogo} alt="" style={{ height: '100px' }} /> */}
-            <img src={process.env.PUBLIC_URL + '/logo.png'} alt="-" style={{height: '100px'}} />
-            SEMEXEAI
+
+          {/* LOGO NO CABEÇALHO */}
+          <div className="header-logo-container" onClick={goToHome}>
+            <img
+              src={SemexeLogo}
+              alt="Logo SemexeAI"
+              className="header-logo-img"
+            />
+            SemexeAI
           </div>
+
           <nav className="header-nav">
-            <a href="#!" className="header-link_active">App (Início)</a>
-            <a href="#!" className="header-link">Sobre Nós</a>
-            <a href="#!" className="header-link">Contatos</a>
-            <a href="#!" className="header-link">Sugestão de Melhoria</a>
+            <a
+              onClick={goToHome}
+              className={`header-link ${currentPage === 'home' ? 'active' : ''}`}
+            >
+              Home
+            </a>
+            <a
+              onClick={goToAbout}
+              className={`header-link ${currentPage === 'about' ? 'active' : ''}`}
+            >
+              Sobre Nós
+            </a>
+            <a
+              onClick={goToContact}
+              className={`header-link ${currentPage === 'contact' ? 'active' : ''}`}
+            >
+              Contatos
+            </a>
           </nav>
         </div>
       </div>
       {/* ---------------------------- */}
 
       <div className="app-container">
-        <div className="quiz-card">
-          {!showResults ? (
-            // --- Tela do Quiz ---
-            <>
-              <div className="quiz-header">
-                <h1 className="quiz-title">
-                  Calculadora do empreendedorismo
-                </h1>
-                <h1 className="quiz-description">
-                  Saiba aqui seu perfil empreendedor 😎
-                </h1>
-                <div className="progress-container">
-                  <div
-                    className="progress-bar"
-                    style={{ width: `${((Object.keys(answers).length) / questions.length) * 100}%` }}
-                  ></div>
-                </div>
-                <p className="progress-text">
-                  Pergunta {Object.keys(answers).length + 1} de {questions.length}
-                </p>
-              </div>
-
-              <div className="question-area">
-                <h2 className="question-text">
-                  {currentQuestion.text}
-                </h2>
-                <div className="options-container">
-                  {currentQuestion.options.map((option) => (
-                    <button
-                      key={option.value}
-                      onClick={() => handleAnswer(currentQuestion.id, option.value)}
-                      className={`option-button ${answers[currentQuestion.id] === option.value ? 'selected' : ''}`}
-                    >
-                      {option.text}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </>
-          ) : (
-            // --- Tela de Resultados ---
-            <div className="results-container">
-              <h1 className="quiz-title">
-                Resultado da Análise
-              </h1>
-
-              <div className="best-result-card">
-                <span className="best-result-label">Seu perfil mais provável é:</span>
-                <h2 className="best-result-model">
-                  {results[0].model.toUpperCase()}
-                </h2>
-                <p className="best-result-prob">
-                  {(results[0].probability * 100).toFixed(1)}%
-                </p>
-              </div>
-
-              <div className="all-results-container">
-                <h3 className="all-results-title">Probabilidade de cada modelo:</h3>
-                {results.map((result, index) => (
-                  <div key={result.model} className="result-item">
-                    <div className="result-item-header">
-                      <span className={`result-item-model ${index === 0 ? 'result-item-model-best' : ''}`}>
-                        {index + 1}. {result.model}
-                      </span>
-                      <span className={`result-item-prob ${index === 0 ? 'result-item-prob-best' : ''}`}>
-                        {(result.probability * 100).toFixed(1)}%
-                      </span>
-                    </div>
-                    <div className="result-progress-bar-container">
-                      <div
-                        className={`result-progress-bar ${index === 0 ? 'result-progress-bar-best' : ''}`}
-                        style={{ width: `${result.probability * 100}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <button
-                onClick={handleReset}
-                className="reset-button"
-              >
-                Fazer novamente
-              </button>
-            </div>
-          )}
-        </div>
+        {renderPageContent()} {/* Renderização condicional do conteúdo */}
       </div>
 
-      {/* --- RODAPÉ GLOBAL FIXO NA PÁGINA --- */}
+      {/* --- RODAPÉ GLOBAL FIXO NA PÁGINA (Mantido inalterado) --- */}
       <div className="footer-bar">
         <div className="footer-content">
-          <span className="footer-item instagram-icon"><i className="fab fa-instagram"></i>@SEMEXEAI</span>
-          <span className="footer-item adress-icon"><i className="fab fa-MapMarkerAlt"></i>R. Jaguaré Mirim, 71 - Vila Leopoldina</span>
-          <span className="footer-item phone-icon"><i className="fab fa-Phone"></i>(11) 3738-1260</span>
-          <span className="footer-item">Senai Vila Leopoldina - Mariano Ferraz</span>
+          <span className="footer-item">
+            <img
+              src={senai}
+              alt="Logo senai"
+              className="footer-logo-img"
+            />
+          </span>
+          <span className="footer-item instagram-icon">@semexeai</span>
+          <span className="footer-item">📍R. Jaguaré Mirim, 71 - Vila Leopoldina</span>
+          <span className="footer-item">📞(11) 3738-1260</span>
         </div>
       </div>
       {/* ------------------------------------ */}
