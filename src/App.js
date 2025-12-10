@@ -1,112 +1,208 @@
-import React, { useState } from 'react';
-import SemexeLogo from './logos/logo.png';
-import senai from './logos/Senai.png';
+import React, { useState } from "react";
+import SemexeLogo from "./logos/Logo_sem_texto.png";
+import senai from "./logos/Senai.png";
 
 // --- Base de Conhecimento (Lógica Bayesiana) ---
 // (Mantido inalterado)
 const LIKELIHOODS = {
   // Cenários Franquia e Quiosque
-  'Franquia de rua': {
-    'custo_baixo': 0.1, 'custo_medio': 0.6, 'custo_alto': 0.9,
-    'prazo_rapido': 0.8, 'prazo_longo': 0.2,
-    'ideia_comprovada': 0.9, 'ideia_nova': 0.1,
-    'risco_baixo': 0.7, 'risco_moderado': 0.5, 'risco_alto': 0.2,
-    'habilidade_gestao': 0.9, 'habilidade_tecnica': 0.1,
-    'sim_proprio': 0.3, 'nao_aluguel': 0.7,
+  "Franquia de rua": {
+    custo_baixo: 0.1,
+    custo_medio: 0.6,
+    custo_alto: 0.9,
+    prazo_rapido: 0.8,
+    prazo_longo: 0.2,
+    ideia_comprovada: 0.9,
+    ideia_nova: 0.1,
+    risco_baixo: 0.7,
+    risco_moderado: 0.5,
+    risco_alto: 0.2,
+    habilidade_gestao: 0.9,
+    habilidade_tecnica: 0.1,
+    sim_proprio: 0.3,
+    nao_aluguel: 0.7,
   },
-  'Franquia de shopping': {
-    'custo_baixo': 0.05, 'custo_medio': 0.4, 'custo_alto': 0.95,
-    'prazo_rapido': 0.7, 'prazo_longo': 0.3,
-    'ideia_comprovada': 0.95, 'ideia_nova': 0.05,
-    'risco_baixo': 0.6, 'risco_moderado': 0.6, 'risco_alto': 0.3,
-    'habilidade_gestao': 0.9, 'habilidade_tecnica': 0.1,
-    'sim_proprio': 0.01, 'nao_aluguel': 0.99,
+  "Franquia de shopping": {
+    custo_baixo: 0.05,
+    custo_medio: 0.4,
+    custo_alto: 0.95,
+    prazo_rapido: 0.7,
+    prazo_longo: 0.3,
+    ideia_comprovada: 0.95,
+    ideia_nova: 0.05,
+    risco_baixo: 0.6,
+    risco_moderado: 0.6,
+    risco_alto: 0.3,
+    habilidade_gestao: 0.9,
+    habilidade_tecnica: 0.1,
+    sim_proprio: 0.01,
+    nao_aluguel: 0.99,
   },
-  'Quiosque no metrô/cptm/sptrans': {
-    'custo_baixo': 0.3, 'custo_medio': 0.7, 'custo_alto': 0.5,
-    'prazo_rapido': 0.7, 'prazo_longo': 0.3,
-    'ideia_comprovada': 0.8, 'ideia_nova': 0.2,
-    'risco_baixo': 0.5, 'risco_moderado': 0.8, 'risco_alto': 0.4,
-    'habilidade_gestao': 0.7, 'habilidade_tecnica': 0.4,
-    'sim_proprio': 0.01, 'nao_aluguel': 0.99,
+  "Quiosque no metrô/cptm/sptrans": {
+    custo_baixo: 0.3,
+    custo_medio: 0.7,
+    custo_alto: 0.5,
+    prazo_rapido: 0.7,
+    prazo_longo: 0.3,
+    ideia_comprovada: 0.8,
+    ideia_nova: 0.2,
+    risco_baixo: 0.5,
+    risco_moderado: 0.8,
+    risco_alto: 0.4,
+    habilidade_gestao: 0.7,
+    habilidade_tecnica: 0.4,
+    sim_proprio: 0.01,
+    nao_aluguel: 0.99,
   },
-  'Quiosque shopping': {
-    'custo_baixo': 0.2, 'custo_medio': 0.7, 'custo_alto': 0.8,
-    'prazo_rapido': 0.7, 'prazo_longo': 0.3,
-    'ideia_comprovada': 0.8, 'ideia_nova': 0.2,
-    'risco_baixo': 0.6, 'risco_moderado': 0.7, 'risco_alto': 0.3,
-    'habilidade_gestao': 0.8, 'habilidade_tecnica': 0.3,
-    'sim_proprio': 0.01, 'nao_aluguel': 0.99,
+  "Quiosque shopping": {
+    custo_baixo: 0.2,
+    custo_medio: 0.7,
+    custo_alto: 0.8,
+    prazo_rapido: 0.7,
+    prazo_longo: 0.3,
+    ideia_comprovada: 0.8,
+    ideia_nova: 0.2,
+    risco_baixo: 0.6,
+    risco_moderado: 0.7,
+    risco_alto: 0.3,
+    habilidade_gestao: 0.8,
+    habilidade_tecnica: 0.3,
+    sim_proprio: 0.01,
+    nao_aluguel: 0.99,
   },
 
   // Cenários Marca Própria (Físico)
-  'Marca própria Porta de garagem': {
-    'custo_baixo': 0.7, 'custo_medio': 0.4, 'custo_alto': 0.1,
-    'prazo_rapido': 0.4, 'prazo_longo': 0.6,
-    'ideia_comprovada': 0.5, 'ideia_nova': 0.5,
-    'risco_baixo': 0.6, 'risco_moderado': 0.5, 'risco_alto': 0.2,
-    'habilidade_gestao': 0.5, 'habilidade_tecnica': 0.4,
-    'sim_proprio': 0.95, 'nao_aluguel': 0.05,
+  "Marca própria Porta de garagem": {
+    custo_baixo: 0.7,
+    custo_medio: 0.4,
+    custo_alto: 0.1,
+    prazo_rapido: 0.4,
+    prazo_longo: 0.6,
+    ideia_comprovada: 0.5,
+    ideia_nova: 0.5,
+    risco_baixo: 0.6,
+    risco_moderado: 0.5,
+    risco_alto: 0.2,
+    habilidade_gestao: 0.5,
+    habilidade_tecnica: 0.4,
+    sim_proprio: 0.95,
+    nao_aluguel: 0.05,
   },
-  'Marca própria Loja de rua': {
-    'custo_baixo': 0.1, 'custo_medio': 0.5, 'custo_alto': 0.8,
-    'prazo_rapido': 0.2, 'prazo_longo': 0.8,
-    'ideia_comprovada': 0.6, 'ideia_nova': 0.4,
-    'risco_baixo': 0.3, 'risco_moderado': 0.7, 'risco_alto': 0.4,
-    'habilidade_gestao': 0.8, 'habilidade_tecnica': 0.3,
-    'sim_proprio': 0.7, 'nao_aluguel': 0.3,
+  "Marca própria Loja de rua": {
+    custo_baixo: 0.1,
+    custo_medio: 0.5,
+    custo_alto: 0.8,
+    prazo_rapido: 0.2,
+    prazo_longo: 0.8,
+    ideia_comprovada: 0.6,
+    ideia_nova: 0.4,
+    risco_baixo: 0.3,
+    risco_moderado: 0.7,
+    risco_alto: 0.4,
+    habilidade_gestao: 0.8,
+    habilidade_tecnica: 0.3,
+    sim_proprio: 0.7,
+    nao_aluguel: 0.3,
   },
-  'Marca própria loja de shopping': {
-    'custo_baixo': 0.01, 'custo_medio': 0.2, 'custo_alto': 0.99,
-    'prazo_rapido': 0.1, 'prazo_longo': 0.9,
-    'ideia_comprovada': 0.6, 'ideia_nova': 0.4,
-    'risco_baixo': 0.2, 'risco_moderado': 0.4, 'risco_alto': 0.8,
-    'habilidade_gestao': 0.9, 'habilidade_tecnica': 0.2,
-    'sim_proprio': 0.01, 'nao_aluguel': 0.99,
+  "Marca própria loja de shopping": {
+    custo_baixo: 0.01,
+    custo_medio: 0.2,
+    custo_alto: 0.99,
+    prazo_rapido: 0.1,
+    prazo_longo: 0.9,
+    ideia_comprovada: 0.6,
+    ideia_nova: 0.4,
+    risco_baixo: 0.2,
+    risco_moderado: 0.4,
+    risco_alto: 0.8,
+    habilidade_gestao: 0.9,
+    habilidade_tecnica: 0.2,
+    sim_proprio: 0.01,
+    nao_aluguel: 0.99,
   },
 
   // Cenários Marca Própria (Digital/Mobile)
-  'Marca própria e-commerce': {
-    'custo_baixo': 0.4, 'custo_medio': 0.8, 'custo_alto': 0.5,
-    'prazo_rapido': 0.5, 'prazo_longo': 0.5,
-    'ideia_comprovada': 0.7, 'ideia_nova': 0.4,
-    'risco_baixo': 0.4, 'risco_moderado': 0.8, 'risco_alto': 0.3,
-    'habilidade_gestao': 0.6, 'habilidade_tecnica': 0.7,
-    'sim_proprio': 0.3, 'nao_aluguel': 0.7,
+  "Marca própria e-commerce": {
+    custo_baixo: 0.4,
+    custo_medio: 0.8,
+    custo_alto: 0.5,
+    prazo_rapido: 0.5,
+    prazo_longo: 0.5,
+    ideia_comprovada: 0.7,
+    ideia_nova: 0.4,
+    risco_baixo: 0.4,
+    risco_moderado: 0.8,
+    risco_alto: 0.3,
+    habilidade_gestao: 0.6,
+    habilidade_tecnica: 0.7,
+    sim_proprio: 0.3,
+    nao_aluguel: 0.7,
   },
-  'Marca própria Carrinho de rua': {
-    'custo_baixo': 0.8, 'custo_medio': 0.3, 'custo_alto': 0.1,
-    'prazo_rapido': 0.9, 'prazo_longo': 0.1,
-    'ideia_comprovada': 0.7, 'ideia_nova': 0.3,
-    'risco_baixo': 0.8, 'risco_moderado': 0.3, 'risco_alto': 0.1,
-    'habilidade_gestao': 0.6, 'habilidade_tecnica': 0.4,
-    'sim_proprio': 0.1, 'nao_aluguel': 0.9,
+  "Marca própria Carrinho de rua": {
+    custo_baixo: 0.8,
+    custo_medio: 0.3,
+    custo_alto: 0.1,
+    prazo_rapido: 0.9,
+    prazo_longo: 0.1,
+    ideia_comprovada: 0.7,
+    ideia_nova: 0.3,
+    risco_baixo: 0.8,
+    risco_moderado: 0.3,
+    risco_alto: 0.1,
+    habilidade_gestao: 0.6,
+    habilidade_tecnica: 0.4,
+    sim_proprio: 0.1,
+    nao_aluguel: 0.9,
   },
-  'Marca própria com vendas em terceiros': {
-    'custo_baixo': 0.5, 'custo_medio': 0.5, 'custo_alto': 0.2,
-    'prazo_rapido': 0.6, 'prazo_longo': 0.4,
-    'ideia_comprovada': 0.7, 'ideia_nova': 0.3,
-    'risco_baixo': 0.6, 'risco_moderado': 0.5, 'risco_alto': 0.2,
-    'habilidade_gestao': 0.7, 'habilidade_tecnica': 0.6,
-    'sim_proprio': 0.1, 'nao_aluguel': 0.9,
+  "Marca própria com vendas em terceiros": {
+    custo_baixo: 0.5,
+    custo_medio: 0.5,
+    custo_alto: 0.2,
+    prazo_rapido: 0.6,
+    prazo_longo: 0.4,
+    ideia_comprovada: 0.7,
+    ideia_nova: 0.3,
+    risco_baixo: 0.6,
+    risco_moderado: 0.5,
+    risco_alto: 0.2,
+    habilidade_gestao: 0.7,
+    habilidade_tecnica: 0.6,
+    sim_proprio: 0.1,
+    nao_aluguel: 0.9,
   },
 
   // Cenários Serviços e Inovação
-  'Serviços para eventos': {
-    'custo_baixo': 0.6, 'custo_medio': 0.4, 'custo_alto': 0.2,
-    'prazo_rapido': 0.6, 'prazo_longo': 0.4,
-    'ideia_comprovada': 0.8, 'ideia_nova': 0.2,
-    'risco_baixo': 0.5, 'risco_moderado': 0.6, 'risco_alto': 0.3,
-    'habilidade_gestao': 0.7, 'habilidade_tecnica': 0.5,
-    'sim_proprio': 0.2, 'nao_aluguel': 0.8,
+  "Serviços para eventos": {
+    custo_baixo: 0.6,
+    custo_medio: 0.4,
+    custo_alto: 0.2,
+    prazo_rapido: 0.6,
+    prazo_longo: 0.4,
+    ideia_comprovada: 0.8,
+    ideia_nova: 0.2,
+    risco_baixo: 0.5,
+    risco_moderado: 0.6,
+    risco_alto: 0.3,
+    habilidade_gestao: 0.7,
+    habilidade_tecnica: 0.5,
+    sim_proprio: 0.2,
+    nao_aluguel: 0.8,
   },
-  'Startup': {
-    'custo_baixo': 0.1, 'custo_medio': 0.3, 'custo_alto': 0.9,
-    'prazo_rapido': 0.1, 'prazo_longo': 0.9,
-    'ideia_comprovada': 0.05, 'ideia_nova': 0.95,
-    'risco_baixo': 0.05, 'risco_moderado': 0.1, 'risco_alto': 0.95,
-    'habilidade_gestao': 0.3, 'habilidade_tecnica': 0.95,
-    'sim_proprio': 0.1, 'nao_aluguel': 0.9,
+  Startup: {
+    custo_baixo: 0.1,
+    custo_medio: 0.3,
+    custo_alto: 0.9,
+    prazo_rapido: 0.1,
+    prazo_longo: 0.9,
+    ideia_comprovada: 0.05,
+    ideia_nova: 0.95,
+    risco_baixo: 0.05,
+    risco_moderado: 0.1,
+    risco_alto: 0.95,
+    habilidade_gestao: 0.3,
+    habilidade_tecnica: 0.95,
+    sim_proprio: 0.1,
+    nao_aluguel: 0.9,
   },
 };
 
@@ -120,55 +216,79 @@ const PRIORS = Object.keys(LIKELIHOODS).reduce((acc, scenario) => {
 // (Mantido inalterado)
 const questions = [
   {
-    id: 'q1',
+    id: "q1",
     text: "Qual é o seu limite de capital total para investir neste negócio nos primeiros 12 meses?",
     options: [
-      { text: "Baixo (ex: até R$10.000)💰", value: 'custo_baixo' },
-      { text: "Médio (ex: R$11.000 - R$199.000)💰💰", value: 'custo_medio' },
-      { text: "Alto (ex: acima de R$200.000)💰💰💰", value: 'custo_alto' }
-    ]
+      { text: "Baixo (ex: até R$10.000)💰", value: "custo_baixo" },
+      { text: "Médio (ex: R$11.000 - R$199.000)💰💰", value: "custo_medio" },
+      { text: "Alto (ex: acima de R$200.000)💰💰💰", value: "custo_alto" },
+    ],
   },
   {
-    id: 'q2',
+    id: "q2",
     text: "Você depende do lucro deste negócio para pagar suas contas pessoais no curto prazo (6-12 meses)?",
     options: [
-      { text: "Sim, preciso de renda rápida (6-12 meses)", value: 'prazo_rapido' },
-      { text: "Não, posso esperar 2 anos ou mais", value: 'prazo_longo' }
-    ]
+      {
+        text: "Sim, preciso de renda rápida (6-12 meses)",
+        value: "prazo_rapido",
+      },
+      { text: "Não, posso esperar 2 anos ou mais", value: "prazo_longo" },
+    ],
   },
   {
-    id: 'q3',
+    id: "q3",
     text: "Sua motivação principal é executar um plano comprovado ou criar algo radicalmente novo?",
     options: [
-      { text: "Executar um plano comprovado", value: 'ideia_comprovada' },
-      { text: "Criar um produto/serviço novo", value: 'ideia_nova' }
-    ]
+      { text: "Executar um plano comprovado", value: "ideia_comprovada" },
+      { text: "Criar um produto/serviço novo", value: "ideia_nova" },
+    ],
   },
   {
-    id: 'q4',
+    id: "q4",
     text: "Quão confortável você está com a incerteza financeira? (0 = Segurança total, 10 = Risco total)",
     options: [
-      { text: "0-4: Prefiro segurança, mesmo com retorno menor", value: 'risco_baixo' },
-      { text: "5-7: Aceito risco moderado por retorno moderado", value: 'risco_moderado' },
-      { text: "8-10: Arrisco tudo pela chance de um retorno muito maior", value: 'risco_alto' }
-    ]
+      {
+        text: "0-4: Prefiro segurança, mesmo com retorno menor",
+        value: "risco_baixo",
+      },
+      {
+        text: "5-7: Aceito risco moderado por retorno moderado",
+        value: "risco_moderado",
+      },
+      {
+        text: "8-10: Arrisco tudo pela chance de um retorno muito maior",
+        value: "risco_alto",
+      },
+    ],
   },
   {
-    id: 'q5',
+    id: "q5",
     text: "Qual é sua maior força profissional?",
     options: [
-      { text: "Gestão (Organizar processos, finanças, equipes)", value: 'habilidade_gestao' },
-      { text: "Técnica (Programar, criar conteúdo, marketing digital)", value: 'habilidade_tecnica' }
-    ]
+      {
+        text: "Gestão (Organizar processos, finanças, equipes)",
+        value: "habilidade_gestao",
+      },
+      {
+        text: "Técnica (Programar, criar conteúdo, marketing digital)",
+        value: "habilidade_tecnica",
+      },
+    ],
   },
   {
-    id: 'q6',
+    id: "q6",
     text: "Voce possui local próprio ou depende 100% de aluguel?",
     options: [
-      { text: "Sim, possuo local próprio (reduzindo custo fixo)", value: 'sim_proprio' },
-      { text: "Não, dependeria 100% de aluguel/contrato", value: 'nao_aluguel' }
-    ]
-  }
+      {
+        text: "Sim, possuo local próprio (reduzindo custo fixo)",
+        value: "sim_proprio",
+      },
+      {
+        text: "Não, dependeria 100% de aluguel/contrato",
+        value: "nao_aluguel",
+      },
+    ],
+  },
 ];
 
 // --- Componentes de Página ---
@@ -178,17 +298,25 @@ function AboutPage() {
   return (
     <div className="content-page-container">
       <h1 className="page-title">Sobre Nós</h1>
-      <p className="page-content">Somos uma equipe de quatro estudantes do segundo período de Análise e Desenvolvimento de Sistemas do SENAI - Mariano Ferraz.
-  O <b>SeMexeAI</b> nasceu como nosso Projeto Integrador com o objetivo de aplicar conhecimentos técnicos
-  em uma solução prática para novos empreendedores.
-  <br/><br/>
-  Nosso diferencial é a utilização do <b>Teorema de Bayes (classificador Naive Bayes)</b>, uma poderosa ferramenta estatística,
-  para analisar as respostas do usuário e calcular as probabilidades do seu perfil de investimento (score bayesiano).
-  Isso nos permite sugerir o tipo de empreendimento com maior chance de sucesso para o seu capital, prazo e apetite ao risco.
-  <br/><br/>
-  Agradecemos o interesse em nosso projeto e esperamos que o SeMexeAI
-  seja o primeiro passo de sucesso na sua jornada empreendedora!</p>
-    <p>Anderson - Carla - Eduardo - Julyana</p>
+      <p className="page-content">
+        Somos uma equipe de quatro estudantes do segundo período de Análise e
+        Desenvolvimento de Sistemas do SENAI - Mariano Ferraz. O <b>SeMexeAI</b>{" "}
+        nasceu como nosso Projeto Integrador com o objetivo de aplicar
+        conhecimentos técnicos em uma solução prática para novos empreendedores.
+        <br />
+        <br />
+        Nosso diferencial é a utilização do{" "}
+        <b>Teorema de Bayes (classificador Naive Bayes)</b>, uma poderosa
+        ferramenta estatística, para analisar as respostas do usuário e calcular
+        as probabilidades do seu perfil de investimento (score bayesiano). Isso
+        nos permite sugerir o tipo de empreendimento com maior chance de sucesso
+        para o seu capital, prazo e apetite ao risco.
+        <br />
+        <br />
+        Agradecemos o interesse em nosso projeto e esperamos que o SeMexeAI seja
+        o primeiro passo de sucesso na sua jornada empreendedora!
+      </p>
+      <p>Anderson - Carla - Eduardo - Julyana</p>
     </div>
   );
 }
@@ -199,7 +327,9 @@ function ContactPage() {
     <div className="content-page-container">
       <h1 className="page-title">Contatos rede Senai</h1>
       <p className="page-content">Email: sac@senaicni.com.br</p>
-      <p>ou ligue para (61) 3317-9989 ou (61) 3317-9992 para atendimento geral</p>
+      <p>
+        ou ligue para (61) 3317-9989 ou (61) 3317-9992 para atendimento geral
+      </p>
     </div>
   );
 }
@@ -212,9 +342,11 @@ function QuizContent({
   questions,
   results,
   handleAnswer,
-  handleReset
+  handleReset,
 }) {
-  const displayIndex = showResults ? questions.length - 1 : currentQuestionIndex;
+  const displayIndex = showResults
+    ? questions.length - 1
+    : currentQuestionIndex;
   const currentQuestion = questions[displayIndex];
 
   return (
@@ -223,16 +355,18 @@ function QuizContent({
         // --- Tela do Quiz ---
         <>
           <div className="quiz-header">
-            <h1 className="quiz-title">
-              Calculadora do empreendedorismo
-            </h1>
+            <h1 className="quiz-title">Calculadora do empreendedorismo</h1>
             <h1 className="quiz-description">
               Saiba aqui seu perfil empreendedor 😎
             </h1>
             <div className="progress-container">
               <div
                 className="progress-bar"
-                style={{ width: `${((Object.keys(answers).length) / questions.length) * 100}%` }}
+                style={{
+                  width: `${
+                    (Object.keys(answers).length / questions.length) * 100
+                  }%`,
+                }}
               ></div>
             </div>
             <p className="progress-text">
@@ -241,15 +375,17 @@ function QuizContent({
           </div>
 
           <div className="question-area">
-            <h2 className="question-text">
-              {currentQuestion.text}
-            </h2>
+            <h2 className="question-text">{currentQuestion.text}</h2>
             <div className="options-container">
               {currentQuestion.options.map((option) => (
                 <button
                   key={option.value}
                   onClick={() => handleAnswer(currentQuestion.id, option.value)}
-                  className={`option-button ${answers[currentQuestion.id] === option.value ? 'option-button-selected' : ''}`}
+                  className={`option-button ${
+                    answers[currentQuestion.id] === option.value
+                      ? "option-button-selected"
+                      : ""
+                  }`}
                 >
                   {option.text}
                 </button>
@@ -260,12 +396,12 @@ function QuizContent({
       ) : (
         // --- Tela de Resultados ---
         <div className="results-container">
-          <h1 className="quiz-title">
-            Resultado da Análise
-          </h1>
+          <h1 className="quiz-title">Resultado da Análise</h1>
 
           <div className="best-result-card">
-            <span className="best-result-label">Seu perfil mais provável é:</span>
+            <span className="best-result-label">
+              Seu perfil mais provável é:
+            </span>
             <h2 className="best-result-model">
               {results[0].model.toUpperCase()}
             </h2>
@@ -279,16 +415,26 @@ function QuizContent({
             {results.map((result, index) => (
               <div key={result.model} className="result-item">
                 <div className="result-item-header">
-                  <span className={`result-item-model ${index === 0 ? 'result-item-model-best' : ''}`}>
+                  <span
+                    className={`result-item-model ${
+                      index === 0 ? "result-item-model-best" : ""
+                    }`}
+                  >
                     {index + 1}. {result.model}
                   </span>
-                  <span className={`result-item-prob ${index === 0 ? 'result-item-prob-best' : ''}`}>
+                  <span
+                    className={`result-item-prob ${
+                      index === 0 ? "result-item-prob-best" : ""
+                    }`}
+                  >
                     {(result.probability * 100).toFixed(1)}%
                   </span>
                 </div>
                 <div className="result-progress-bar-container">
                   <div
-                    className={`result-progress-bar ${index === 0 ? 'result-progress-bar-best' : ''}`}
+                    className={`result-progress-bar ${
+                      index === 0 ? "result-progress-bar-best" : ""
+                    }`}
                     style={{ width: `${result.probability * 100}%` }}
                   ></div>
                 </div>
@@ -296,10 +442,7 @@ function QuizContent({
             ))}
           </div>
 
-          <button
-            onClick={handleReset}
-            className="reset-button"
-          >
+          <button onClick={handleReset} className="reset-button">
             Fazer novamente
           </button>
         </div>
@@ -307,7 +450,6 @@ function QuizContent({
     </div>
   );
 }
-
 
 // --- Componente de Estilização (Com ajustes no Header, App Container e novos estilos para as páginas) ---
 function AppStyles() {
@@ -585,12 +727,12 @@ function App() {
   const [answers, setAnswers] = useState({});
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  const [currentPage, setCurrentPage] = useState('home'); // Novo estado para controle da página
+  const [currentPage, setCurrentPage] = useState("home"); // Novo estado para controle da página
 
   // Funções de Navegação
-  const goToHome = () => setCurrentPage('home');
-  const goToAbout = () => setCurrentPage('about');
-  const goToContact = () => setCurrentPage('contact');
+  const goToHome = () => setCurrentPage("home");
+  const goToAbout = () => setCurrentPage("about");
+  const goToContact = () => setCurrentPage("contact");
 
   // Lógica de Cálculo (Mantida inalterada)
   const calculateResults = (finalAnswers) => {
@@ -610,7 +752,7 @@ function App() {
     const normalizedPosteriors = Object.entries(posteriors)
       .map(([model, prob]) => ({
         model,
-        probability: (prob / totalProbability) || 0,
+        probability: prob / totalProbability || 0,
       }))
       .sort((a, b) => b.probability - a.probability);
 
@@ -622,7 +764,9 @@ function App() {
     const newAnswers = { ...answers, [questionId]: answerValue };
     setAnswers(newAnswers);
 
-    const answeredCount = Object.values(newAnswers).filter(v => v !== null).length;
+    const answeredCount = Object.values(newAnswers).filter(
+      (v) => v !== null
+    ).length;
 
     if (answeredCount < questions.length) {
       setCurrentQuestionIndex(answeredCount);
@@ -642,11 +786,11 @@ function App() {
   // Renderiza a página principal (Home) ou o conteúdo do About/Contact
   const renderPageContent = () => {
     switch (currentPage) {
-      case 'about':
+      case "about":
         return <AboutPage />;
-      case 'contact':
+      case "contact":
         return <ContactPage />;
-      case 'home':
+      case "home":
       default:
         // Passa todas as props necessárias para o componente Quiz
         return (
@@ -670,7 +814,6 @@ function App() {
       {/* --- HEADER SUPERIOR FIXO (Links atualizados) --- */}
       <div className="app-header">
         <div className="header-content">
-
           {/* LOGO NO CABEÇALHO */}
           <div className="header-logo-container" onClick={goToHome}>
             <img
@@ -681,28 +824,34 @@ function App() {
             SeMexeAI
           </div>
 
-<nav className="header-nav">
+          <nav className="header-nav">
             <button // CORRIGIDO
               onClick={goToHome}
-              className={`header-link ${currentPage === 'home' ? 'active' : ''}`}
+              className={`header-link ${
+                currentPage === "home" ? "active" : ""
+              }`}
             >
               Home
             </button>
 
             <button // CORRIGIDO
               onClick={goToAbout}
-              className={`header-link ${currentPage === 'about' ? 'active' : ''}`}
+              className={`header-link ${
+                currentPage === "about" ? "active" : ""
+              }`}
             >
               Sobre Nós
             </button>
-            
+
             <button // CORRIGIDO
               onClick={goToContact}
-              className={`header-link ${currentPage === 'contact' ? 'active' : ''}`}
+              className={`header-link ${
+                currentPage === "contact" ? "active" : ""
+              }`}
             >
               Contatos
             </button>
-         </nav>
+          </nav>
         </div>
       </div>
       {/* ---------------------------- */}
@@ -715,19 +864,17 @@ function App() {
       <div className="footer-bar">
         <div className="footer-content">
           <span className="footer-item">
-            <img
-              src={senai}
-              alt="Logo senai"
-              className="footer-logo-img"
-            />
+            <img src={senai} alt="Logo senai" className="footer-logo-img" />
           </span>
           <span className="footer-item instagram-icon">@semexeai</span>
-          <span className="footer-item">📍R. Jaguaré Mirim, 71 - Vila Leopoldina</span>
+          <span className="footer-item">
+            📍R. Jaguaré Mirim, 71 - Vila Leopoldina
+          </span>
           <span className="footer-item">📞(11) 3738-1260</span>
         </div>
       </div>
-    {/* ------------------------------------ */}
-  </>
+      {/* ------------------------------------ */}
+    </>
   );
 }
 
