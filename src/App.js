@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import SemexeLogo from './Logo com Fundo Branco.png';
-import senai from './Senai.png';
+import SemexeLogo from './logos/logo.png';
+import senai from './logos/Senai.png';
 
 // --- Base de Conhecimento (Lógica Bayesiana) ---
 // (Mantido inalterado)
@@ -179,16 +179,16 @@ function AboutPage() {
     <div className="content-page-container">
       <h1 className="page-title">Sobre Nós</h1>
       <p className="page-content">Somos uma equipe de quatro estudantes do segundo período de Análise e Desenvolvimento de Sistemas do SENAI - Mariano Ferraz.
-  O <b>SemexeAI</b> nasceu como nosso Projeto Integrador com o objetivo de aplicar conhecimentos técnicos
+  O <b>SeMexeAI</b> nasceu como nosso Projeto Integrador com o objetivo de aplicar conhecimentos técnicos
   em uma solução prática para novos empreendedores.
   <br/><br/>
   Nosso diferencial é a utilização do <b>Teorema de Bayes (classificador Naive Bayes)</b>, uma poderosa ferramenta estatística,
   para analisar as respostas do usuário e calcular as probabilidades do seu perfil de investimento (score bayesiano).
   Isso nos permite sugerir o tipo de empreendimento com maior chance de sucesso para o seu capital, prazo e apetite ao risco.
   <br/><br/>
-  Agradecemos o interesse em nosso projeto e esperamos que o SemexeAI
+  Agradecemos o interesse em nosso projeto e esperamos que o SeMexeAI
   seja o primeiro passo de sucesso na sua jornada empreendedora!</p>
-    <p>Anderson - Carla - Eduardo - Juliana</p>
+    <p>Anderson - Carla - Eduardo - Julyana</p>
     </div>
   );
 }
@@ -675,10 +675,10 @@ function App() {
           <div className="header-logo-container" onClick={goToHome}>
             <img
               src={SemexeLogo}
-              alt="Logo SemexeAI"
+              alt="Logo SeMexeAI"
               className="header-logo-img"
             />
-            SemexeAI
+            SeMexeAI
           </div>
 
           <nav className="header-nav">
