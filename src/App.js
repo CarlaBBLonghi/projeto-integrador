@@ -681,26 +681,28 @@ function App() {
             SeMexeAI
           </div>
 
-          <nav className="header-nav">
-            <a
+<nav className="header-nav">
+            <button // CORRIGIDO
               onClick={goToHome}
               className={`header-link ${currentPage === 'home' ? 'active' : ''}`}
             >
               Home
-            </a>
-            <a
+            </button>
+
+            <button // CORRIGIDO
               onClick={goToAbout}
               className={`header-link ${currentPage === 'about' ? 'active' : ''}`}
             >
               Sobre Nós
-            </a>
-            <a
+            </button>
+            
+            <button // CORRIGIDO
               onClick={goToContact}
               className={`header-link ${currentPage === 'contact' ? 'active' : ''}`}
             >
               Contatos
-            </a>
-          </nav>
+            </button>
+         </nav>
         </div>
       </div>
       {/* ---------------------------- */}
@@ -724,8 +726,8 @@ function App() {
           <span className="footer-item">📞(11) 3738-1260</span>
         </div>
       </div>
-      {/* ------------------------------------ */}
-    </>
+    {/* ------------------------------------ */}
+  </>
   );
 }
 
