@@ -277,7 +277,7 @@ const questions = [
   },
   {
     id: "q6",
-    text: "Voce possui local próprio ou depende 100% de aluguel?",
+    text: "Você possui local próprio ou depende 100% de aluguel?",
     options: [
       {
         text: "Sim, possuo local próprio (reduzindo custo fixo)",
