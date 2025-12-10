@@ -6,7 +6,7 @@ import senai from "./logos/Senai.png";
 // (Mantido inalterado)
 const LIKELIHOODS = {
   // Cenários Franquia e Quiosque
-  "Franquia de rua": {
+  "Franquia de Rua": {
     custo_baixo: 0.1,
     custo_medio: 0.6,
     custo_alto: 0.9,
@@ -22,7 +22,7 @@ const LIKELIHOODS = {
     sim_proprio: 0.3,
     nao_aluguel: 0.7,
   },
-  "Franquia de shopping": {
+  "Franquia de Shopping": {
     custo_baixo: 0.05,
     custo_medio: 0.4,
     custo_alto: 0.95,
@@ -38,7 +38,7 @@ const LIKELIHOODS = {
     sim_proprio: 0.01,
     nao_aluguel: 0.99,
   },
-  "Quiosque no metrô/cptm/sptrans": {
+  "Quiosque de Metrô/CPTM/SPTrans": {
     custo_baixo: 0.3,
     custo_medio: 0.7,
     custo_alto: 0.5,
@@ -54,7 +54,7 @@ const LIKELIHOODS = {
     sim_proprio: 0.01,
     nao_aluguel: 0.99,
   },
-  "Quiosque shopping": {
+  "Quiosque de Shopping": {
     custo_baixo: 0.2,
     custo_medio: 0.7,
     custo_alto: 0.8,
@@ -104,7 +104,7 @@ const LIKELIHOODS = {
     sim_proprio: 0.7,
     nao_aluguel: 0.3,
   },
-  "Marca própria loja de shopping": {
+  "Marca própria Loja de shopping": {
     custo_baixo: 0.01,
     custo_medio: 0.2,
     custo_alto: 0.99,
@@ -154,7 +154,7 @@ const LIKELIHOODS = {
     sim_proprio: 0.1,
     nao_aluguel: 0.9,
   },
-  "Marca própria com vendas em terceiros": {
+  "Marca própria com Vendas em terceiros": {
     custo_baixo: 0.5,
     custo_medio: 0.5,
     custo_alto: 0.2,
